@@ -24,10 +24,10 @@ steps:
  
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api', '.']
+    args: ['build', '-t', 'gcr.io/waitlist-resido-api/api-waitlist-resido-api', '.']
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api']
+    args: ['push', 'gcr.io/waitlist-resido-api/api-waitlist-resido-api']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
@@ -35,9 +35,9 @@ steps:
       [
         'run',
         'deploy',
-        '${_ENV}-api-waitlist-resido-api',
+        'api-waitlist-resido-api',
         '--image',
-        'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api',
+        'gcr.io/waitlist-resido-api/api-waitlist-resido-api',
         '--region',
         'us-central1',
         '--platform',
