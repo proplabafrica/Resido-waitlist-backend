@@ -21,14 +21,7 @@ steps:
         "gs://resido-waitlist/deployment-files/${_ENV}.env",
         ".env",
       ]
-   # Override .gitignore because it makes .dockerignore ignore environment variables
-  - name: gcr.io/cloud-builders/gsutil
-    args:
-      [
-        'cp',
-        'gs://resido-waitlist/deployment-files/.gitignore',
-        '.gitignore'
-      ]
+ 
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api', '.']
