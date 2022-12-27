@@ -37,7 +37,7 @@ steps:
         'deploy',
         'waitlist-resido-api',
         '--image',
-        'gcr.io/waitlist-resido-api/waitlist-resido-api',
+        'gcr.io/waitlist-resido-api/api-waitlist-resido-api',
         '--region',
         'us-central1',
         '--platform',
