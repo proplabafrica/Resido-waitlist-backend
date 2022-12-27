@@ -11,7 +11,7 @@ ENV HOST 0.0.0.0
 
 # Copy application dependency manifests to the container image.
 # Copying this first prevents re-running yarn install on every code change.
-COPY package*.json yarn.lock ./
+COPY package*.json ./
 
 # Install production dependencies.
 RUN npm install
