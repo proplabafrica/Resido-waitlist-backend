@@ -7,4 +7,4 @@ steps:
 # Run custom commands
 - name: node
   entrypoint: npm
-  args: ['run', 'start']
+  args: ['run', 'deploy']
