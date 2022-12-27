@@ -1,10 +1,54 @@
 steps:
-# Install dependencies
-- name: node
-  entrypoint: npm
-  args: ['install']
+  # Install dependencies
+  - name: node
+    entrypoint: npm
+    args: ['install']
 
-# Run custom commands
-- name: node
-  entrypoint: npm
-  args: ['run', 'deploy']
+  # Fetch gcp-service-account.json from storage
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      [
+        "cp",
+        "gs://waitlist-resido-api-deployment-files/deployment-files/gcp-service-account.json",
+        "gcp-service-account.json",
+      ]
+   
+   # Fetch environment variables from storage
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      [
+        "cp",
+        "gs://waitlist-resido-api-deployment-files/deployment-files/${_ENV}.env",
+        ".env",
+      ]
+   # Override .gitignore because it makes .dockerignore ignore environment variables
+  - name: gcr.io/cloud-builders/gsutil
+    args:
+      [
+        'cp',
+        'gs://adbiller-deployment-files/deployment-files/.gitignore',
+        '.gitignore'
+      ]
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api', '.']
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/waitlist-resido-api/${_ENV}-api-waitlist-resido-api']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      [
+        'run',
+        'deploy',
+        '${_ENV}-api-waitlist-resido-api',
+        '--image',
+        'gcr.io/adbiller/${_ENV}-api-waitlist-resido-api',
+        '--region',
+        'us-central1',
+        '--platform',
+        'managed',
+        '--allow-unauthenticated'
+      ]
+
