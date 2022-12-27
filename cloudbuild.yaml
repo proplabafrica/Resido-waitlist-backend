@@ -9,7 +9,7 @@ steps:
     args:
       [
         "cp",
-        "gs://waitlist-resido-api-deployment-files/deployment-files/gcp-service-account.json",
+        "gs://resido-waitlist-deployment-files/deployment-files/gcp-service-account.json",
         "gcp-service-account.json",
       ]
    
@@ -18,7 +18,7 @@ steps:
     args:
       [
         "cp",
-        "gs://waitlist-resido-api-deployment-files/deployment-files/${_ENV}.env",
+        "gs://resido-waitlist-deployment-files/deployment-files/${_ENV}.env",
         ".env",
       ]
    # Override .gitignore because it makes .dockerignore ignore environment variables
@@ -26,7 +26,7 @@ steps:
     args:
       [
         'cp',
-        'gs://adbiller-deployment-files/deployment-files/.gitignore',
+        'gs://resido-waitlist-deployment-files/deployment-files/.gitignore',
         '.gitignore'
       ]
   # Build the container image
