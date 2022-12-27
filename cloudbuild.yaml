@@ -4,21 +4,21 @@ steps:
     entrypoint: npm
     args: ['install']
 
-  # Fetch gcp-service-account.json from storage
-  - name: gcr.io/cloud-builders/gsutil
-    args:
-      [
-        "cp",
-        "gs://waitlist-resido-api/deployment-files/gcp-service-account.json",
-        "gcp-service-account.json",
-      ]
+#   # Fetch gcp-service-account.json from storage
+#   - name: gcr.io/cloud-builders/gsutil
+#     args:
+#       [
+#         "cp",
+#         "gs://waitlist-resido-api/deployment-files/gcp-service-account.json",
+#         "gcp-service-account.json",
+#       ]
    
    # Fetch environment variables from storage
   - name: gcr.io/cloud-builders/gsutil
     args:
       [
         "cp",
-        "gs://waitlist-resido-api/deployment-files/${_ENV}.env",
+        "gs://resido-waitlist/deployment-files/${_ENV}.env",
         ".env",
       ]
    # Override .gitignore because it makes .dockerignore ignore environment variables
@@ -26,7 +26,7 @@ steps:
     args:
       [
         'cp',
-        'gs://waitlist-resido-api/deployment-files/.gitignore',
+        'gs://resido-waitlist/deployment-files/.gitignore',
         '.gitignore'
       ]
   # Build the container image
